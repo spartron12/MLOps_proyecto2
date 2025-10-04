@@ -76,7 +76,7 @@ x-airflow-common:
     AIRFLOW_CONN_FS_DEFAULT: 'fs:///'
     
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-    _PIP_ADDITIONAL_REQUIREMENTS: palmerpenguins pandas numpy scipy scikit-learn mysqlclient fastapi uvicorn pydantic joblib
+    _PIP_ADDITIONAL_REQUIREMENTS: mlflow pandas numpy scipy scikit-learn mysqlclient fastapi uvicorn pydantic joblib
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
@@ -346,6 +346,38 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.14.1
+    container_name: mlflow
+    ports:
+      - "5000:5000"
+    environment:
+      - BACKEND_STORE_URI=sqlite:///mlflow.db
+      - ARTIFACT_ROOT=/mlflow/artifacts
+    volumes:
+      - ./mlflow:/mlflow
+    command: >
+      mlflow server
+      --backend-store-uri ${BACKEND_STORE_URI}
+      --default-artifact-root ${ARTIFACT_ROOT}
+      --host 0.0.0.0
+      --port 5000
+    restart: always
+
+
+  minio:
+    container_name: Minio
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=supersecret
+    image: quay.io/minio/minio:latest
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./minio:/data
+    restart: unless-stopped
 
 volumes:
   postgres-db-volume:
