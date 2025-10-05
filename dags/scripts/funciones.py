@@ -11,8 +11,9 @@ import requests
 from datetime import datetime
 import mlflow
 from mlflow.tracking import MlflowClient
+from sklearn.linear_model import LogisticRegression
 
-MODEL_PATH = "/opt/airflow/models/DecisionTree.pkl"
+MODEL_PATH = "/opt/airflow/models/LogisticRegression.pkl"
 TABLE_NAME = "forest_raw"
 CONN_ID = "mysql_conn"
 
@@ -191,7 +192,7 @@ def train_model():
     hook = MySqlHook(mysql_conn_id=CONN_ID)
     query = "SELECT * FROM forest_clean"
     df = hook.get_pandas_df(sql=query)
-    
+    df.to_csv('/home/estudiante/talleres/Proyecto2/dags/forest_clean.csv', index=False)
     print(f"📊 Datos cargados para entrenamiento: {df.shape}")
     
     # Separar features y target
@@ -203,7 +204,7 @@ def train_model():
     )
     
     print("🌳 Entrenando Decision Tree...")
-    model = DecisionTreeClassifier(random_state=42)
+    model = LogisticRegression()
     model.fit(X_train, Y_train)
     
     y_pred = model.predict(X_test)

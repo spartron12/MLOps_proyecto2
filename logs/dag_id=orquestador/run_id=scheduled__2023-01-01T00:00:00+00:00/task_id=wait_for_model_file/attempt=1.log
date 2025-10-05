@@ -190,3 +190,51 @@
 [2025-10-05T09:40:57.189+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=orquestador, task_id=wait_for_model_file, execution_date=20230101T000000, start_date=20251005T094056, end_date=20251005T094057
 [2025-10-05T09:40:57.233+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
 [2025-10-05T09:40:57.281+0000] {taskinstance.py:2674} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-10-05T10:18:58.941+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T10:18:58.954+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T10:18:58.954+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 2
+[2025-10-05T10:18:58.968+0000] {taskinstance.py:1350} INFO - Executing <Task(FileSensor): wait_for_model_file> on 2023-01-01 00:00:00+00:00
+[2025-10-05T10:18:58.977+0000] {standard_task_runner.py:57} INFO - Started process 184 to run task
+[2025-10-05T10:18:58.981+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'orquestador', 'wait_for_model_file', 'scheduled__2023-01-01T00:00:00+00:00', '--job-id', '785', '--raw', '--subdir', 'DAGS_FOLDER/orquestador.py', '--cfg-path', '/tmp/tmppvyn3yp9']
+[2025-10-05T10:18:58.988+0000] {standard_task_runner.py:85} INFO - Job 785: Subtask wait_for_model_file
+[2025-10-05T10:18:59.075+0000] {task_command.py:410} INFO - Running <TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [running]> on host 32ad715ed266
+[2025-10-05T10:18:59.184+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='orquestador' AIRFLOW_CTX_TASK_ID='wait_for_model_file' AIRFLOW_CTX_EXECUTION_DATE='2023-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2023-01-01T00:00:00+00:00'
+[2025-10-05T10:18:59.185+0000] {base.py:73} INFO - Using connection ID 'fs_default' for task execution.
+[2025-10-05T10:18:59.186+0000] {filesystem.py:64} INFO - Poking for file /opt/***/models/LogisticRegression.pkl
+[2025-10-05T10:18:59.186+0000] {filesystem.py:69} INFO - Found File /opt/***/models/LogisticRegression.pkl last modified: 20251005101856
+[2025-10-05T10:18:59.186+0000] {base.py:255} INFO - Success criteria met. Exiting.
+[2025-10-05T10:18:59.197+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=orquestador, task_id=wait_for_model_file, execution_date=20230101T000000, start_date=20251005T101858, end_date=20251005T101859
+[2025-10-05T10:18:59.235+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
+[2025-10-05T10:18:59.274+0000] {taskinstance.py:2674} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-10-05T18:16:55.391+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T18:16:55.405+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T18:16:55.405+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 2
+[2025-10-05T18:16:55.421+0000] {taskinstance.py:1350} INFO - Executing <Task(FileSensor): wait_for_model_file> on 2023-01-01 00:00:00+00:00
+[2025-10-05T18:16:55.429+0000] {standard_task_runner.py:57} INFO - Started process 500 to run task
+[2025-10-05T18:16:55.434+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'orquestador', 'wait_for_model_file', 'scheduled__2023-01-01T00:00:00+00:00', '--job-id', '821', '--raw', '--subdir', 'DAGS_FOLDER/orquestador.py', '--cfg-path', '/tmp/tmp4owzyvi9']
+[2025-10-05T18:16:55.436+0000] {standard_task_runner.py:85} INFO - Job 821: Subtask wait_for_model_file
+[2025-10-05T18:16:55.501+0000] {task_command.py:410} INFO - Running <TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [running]> on host 6a41d75c2576
+[2025-10-05T18:16:55.595+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='orquestador' AIRFLOW_CTX_TASK_ID='wait_for_model_file' AIRFLOW_CTX_EXECUTION_DATE='2023-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2023-01-01T00:00:00+00:00'
+[2025-10-05T18:16:55.597+0000] {base.py:73} INFO - Using connection ID 'fs_default' for task execution.
+[2025-10-05T18:16:55.597+0000] {filesystem.py:64} INFO - Poking for file /opt/***/models/LogisticRegression.pkl
+[2025-10-05T18:16:55.597+0000] {filesystem.py:69} INFO - Found File /opt/***/models/LogisticRegression.pkl last modified: 20251005181653
+[2025-10-05T18:16:55.598+0000] {base.py:255} INFO - Success criteria met. Exiting.
+[2025-10-05T18:16:55.611+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=orquestador, task_id=wait_for_model_file, execution_date=20230101T000000, start_date=20251005T181655, end_date=20251005T181655
+[2025-10-05T18:16:55.649+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
+[2025-10-05T18:16:55.687+0000] {taskinstance.py:2674} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-10-05T18:52:19.034+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T18:52:19.052+0000] {taskinstance.py:1125} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [queued]>
+[2025-10-05T18:52:19.053+0000] {taskinstance.py:1331} INFO - Starting attempt 1 of 2
+[2025-10-05T18:52:19.076+0000] {taskinstance.py:1350} INFO - Executing <Task(FileSensor): wait_for_model_file> on 2023-01-01 00:00:00+00:00
+[2025-10-05T18:52:19.085+0000] {standard_task_runner.py:57} INFO - Started process 159 to run task
+[2025-10-05T18:52:19.097+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'orquestador', 'wait_for_model_file', 'scheduled__2023-01-01T00:00:00+00:00', '--job-id', '864', '--raw', '--subdir', 'DAGS_FOLDER/orquestador.py', '--cfg-path', '/tmp/tmpr86rys8l']
+[2025-10-05T18:52:19.100+0000] {standard_task_runner.py:85} INFO - Job 864: Subtask wait_for_model_file
+[2025-10-05T18:52:19.178+0000] {task_command.py:410} INFO - Running <TaskInstance: orquestador.wait_for_model_file scheduled__2023-01-01T00:00:00+00:00 [running]> on host 66a5ad2d1715
+[2025-10-05T18:52:19.295+0000] {taskinstance.py:1570} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='orquestador' AIRFLOW_CTX_TASK_ID='wait_for_model_file' AIRFLOW_CTX_EXECUTION_DATE='2023-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2023-01-01T00:00:00+00:00'
+[2025-10-05T18:52:19.297+0000] {base.py:73} INFO - Using connection ID 'fs_default' for task execution.
+[2025-10-05T18:52:19.297+0000] {filesystem.py:64} INFO - Poking for file /opt/***/models/LogisticRegression.pkl
+[2025-10-05T18:52:19.298+0000] {filesystem.py:69} INFO - Found File /opt/***/models/LogisticRegression.pkl last modified: 20251005185216
+[2025-10-05T18:52:19.298+0000] {base.py:255} INFO - Success criteria met. Exiting.
+[2025-10-05T18:52:19.315+0000] {taskinstance.py:1373} INFO - Marking task as SUCCESS. dag_id=orquestador, task_id=wait_for_model_file, execution_date=20230101T000000, start_date=20251005T185219, end_date=20251005T185219
+[2025-10-05T18:52:19.345+0000] {local_task_job_runner.py:232} INFO - Task exited with return code 0
+[2025-10-05T18:52:19.390+0000] {taskinstance.py:2674} INFO - 1 downstream tasks scheduled from follow-on schedule check

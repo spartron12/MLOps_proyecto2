@@ -224,25 +224,6 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  fastapi:
-    build: ./fastapi
-    container_name: fastapi
-    restart: always
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - ./fastapi:/app
-      - ./models:/opt/airflow/models
-    ports:
-      - "8000:8000"
-    depends_on:
-      - airflow-webserver
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8000/health"]
-      interval: 30s
-      retries: 5
-      start_period: 10s
-      timeout: 10s
-
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
@@ -399,6 +380,27 @@ services:
     volumes:
       - ./minio:/data
     restart: unless-stopped
+
+  fastapi:
+    build: ./fastapi
+    container_name: fastapi
+    restart: always
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./fastapi:/app
+      - ./models:/opt/airflow/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      - airflow-webserver
+      - dag-auto-trigger
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/health"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
 
 volumes:
   postgres-db-volume:
