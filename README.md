@@ -1,4 +1,4 @@
-# MLOps Taller 3 - Pipeline Automatizado con Airflow
+# MLOps Taller 5 - Proyecto 2 
 
 **Grupo compuesto por Sebastian Rodríguez y David Córdova**
 
