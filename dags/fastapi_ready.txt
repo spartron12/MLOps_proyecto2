@@ -1,2 +1,2 @@
-FastAPI ready at 2025-10-01 05:14:31.423348
+FastAPI ready at 2025-10-05 01:41:07.248127
 Model path: /opt/airflow/models/DecisionTree.pkl

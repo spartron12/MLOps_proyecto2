@@ -10,6 +10,7 @@ import os
 import requests
 from datetime import datetime
 import mlflow
+from mlflow.tracking import MlflowClient
 
 MODEL_PATH = "/opt/airflow/models/DecisionTree.pkl"
 TABLE_NAME = "forest_raw"
@@ -229,6 +230,55 @@ def train_model():
     os.makedirs('/opt/airflow/models', exist_ok=True)
     joblib.dump(model, MODEL_PATH)
     print(f"💾 Modelo guardado en: {MODEL_PATH}")
+
+def pasa_a_produccion():
+    # Dirección del servidor MLflow (para registrar el run inicial)
+    mlflow.set_tracking_uri("http://mlflow:5000")
+    
+    # Cargar modelo previamente entrenado
+    model = joblib.load(MODEL_PATH)
+    
+    with mlflow.start_run(run_name="decision_tree_run") as run:
+        # Log del modelo como artifact
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="model"
+        )
+
+        # URI del modelo guardado en este run
+        run_id = run.info.run_id
+        model_uri = f"runs:/{run_id}/model"
+
+        # Registrar en el Model Registry del server
+        result = mlflow.register_model(
+            model_uri=model_uri,
+            name="lucio_model"
+        )
+
+        print(f"✅ Modelo logueado y registrado en MLflow (versión provisional {result.version})")
+
+    # Ahora cambiamos de tracking URI al servicio de mlflow del docker-compose
+    mlflow.set_tracking_uri("http://mlflow:5000")
+    print('🔄 Promoviendo modelo a producción en MLflow...')
+
+    client = MlflowClient()
+
+    model_name = "lucio_model"
+
+    # Buscar la última versión registrada de este modelo
+    versions = client.search_model_versions(f"name='{model_name}'")
+    latest_version = max(int(v.version) for v in versions)
+
+    # Promover esa última versión a Production
+    client.transition_model_version_stage(
+        name=model_name,
+        version=latest_version,
+        stage="Production",
+        archive_existing_versions=True
+    )
+
+    print(f"🚀 Modelo {model_name} v{latest_version} promovido a Production")
+
 
 def start_fastapi_server():
     """Verifica que el modelo exista y marca FastAPI como listo"""

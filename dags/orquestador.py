@@ -7,10 +7,11 @@ from airflow.providers.mysql.operators.mysql import MySqlOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.operators.python import PythonOperator
 from datetime import datetime
+import mlflow
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
 
-from funciones import insert_data, read_data, train_model, start_fastapi_server
+from funciones import insert_data, read_data, train_model, start_fastapi_server, pasa_a_produccion
 from scripts.queries import DROP_TABLE, CREATE_TABLE_RAW
 
 MODEL_PATH = "/opt/airflow/models/DecisionTree.pkl"
@@ -71,7 +72,7 @@ with DAG(
         """
     )
 
-    # ========== PASO 4: ENTRENAMIENTO DEL MODELO ==========
+    # ========== PASO 4: ENTRENAMIENTO DEL MODELO Y PASO A PRODUCCION ==========
     
     train_ml_model = PythonOperator(
         task_id="train_ml_model",
@@ -82,6 +83,12 @@ with DAG(
         - Entrena Decision Tree
         - Guarda modelo en /opt/airflow/models/
         """
+    )
+    
+    pasa_a_produccion = PythonOperator(
+        task_id="pasa_a_produccion",
+        python_callable=pasa_a_produccion,
+        doc_md="Registra el modelo entrenado en MLflow y lo marca como producción"
     )
 
     # ========== PASO 5: SENSOR DE MODELO ==========
@@ -106,4 +113,4 @@ with DAG(
 
     # ========== FLUJO DEL PIPELINE ==========
     
-    delete_table_raw >> create_table_raw >> insert_raw_data >> clean_and_transform >> train_ml_model >> wait_for_model >> prepare_fastapi
+    delete_table_raw >> create_table_raw >> insert_raw_data >> clean_and_transform >> train_ml_model >>wait_for_model >> prepare_fastapi
