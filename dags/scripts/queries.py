@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS forest_raw;
 # DROP TABLE IF EXISTS forest_clean;            
 #  """
 
-CREATE_TABLE_RAW = """ CREATE TABLE forest_raw (
+CREATE_TABLE_RAW = """ CREATE TABLE IF NOT EXISTS forest_raw (
             Elevation INT NULL,
             Aspect INT NULL,
             Slope INT NULL,

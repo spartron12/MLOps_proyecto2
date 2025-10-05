@@ -294,3 +294,13 @@ def start_fastapi_server():
         f.write(f"Model path: {MODEL_PATH}\n")
     
     print("✅ FastAPI configurado y listo")
+
+def check_table_exists(**kwargs):
+    from airflow.providers.mysql.hooks.mysql import MySqlHook
+    hook = MySqlHook(mysql_conn_id="mysql_conn")
+    query = "SHOW TABLES LIKE 'forest_raw';"
+    df = hook.get_pandas_df(query)
+    if df.empty:
+        return "create_table_raw"
+    else:
+        return "insert_raw_data"
