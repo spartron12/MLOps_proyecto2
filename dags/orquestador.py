@@ -143,8 +143,8 @@ with DAG(
     default_args=default_args,
     description="Pipeline completo: Carga, Limpieza, Entrenamiento y Despliegue",
     start_date=datetime(2023, 1, 1, 0, 0),
-    schedule_interval="*/2 * * * *",  # Cada 2 minutos
-    end_date=datetime(2023, 1, 1, 0, 18),  # 10 corridas
+    schedule_interval="*/2 * * * *",  # Cada 5 minutos
+    end_date=datetime(2023, 1, 1, 0, 8),  # 10 corridas
     catchup=True,  # Ejecuta todas las corridas perdidas
     max_active_runs=1,  # CRÍTICO: Solo una corrida a la vez
     tags=['ml', 'forest', 'classification'],

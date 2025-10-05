@@ -1,179 +1,147 @@
-#fastapi_app.py - Versión simplificada para tu modelo Random Forest
+# fastapi_app.py - Versión adaptada para Decision Tree (decision_tree3)
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 import numpy as np
 import joblib
-import pickle
 import logging
-import os
 
-# Configuración del logging
+# Configuración de logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Instanciar FastAPI
 app = FastAPI(
-    title="Penguins Species Prediction API",
-    description="API para predecir especies de pingüinos usando Regresion Logistica",
+    title="Forest Cover Type Prediction API",
+    description="API para predecir tipo de cobertura forestal usando Decision Tree",
     version="1.0.0"
 )
 
 # Variables globales
 model = None
-species_mapping = {1: "Adelie", 2: "Chinstrap", 3: "Gentoo"}
 
-# Esquema de entrada
-class PenguinFeatures(BaseModel):
-    bill_length_mm: float = Field(..., example=39.1, description="Longitud del pico en mm")
-    bill_depth_mm: float = Field(..., example=18.7, description="Profundidad del pico en mm")
-    flipper_length_mm: float = Field(..., example=181.0, description="Longitud de la aleta en mm")
-    body_mass_g: float = Field(..., example=3750.0, description="Masa corporal en gramos")
-    year: int = Field(..., example=2007, description="Año de observación")
-    # Variables dummy para isla y sexo
-    island_Biscoe: int = Field(0, example=0, description="1 si es isla Biscoe, 0 si no")
-    island_Dream: int = Field(0, example=0, description="1 si es isla Dream, 0 si no")  
-    island_Torgersen: int = Field(1, example=1, description="1 si es isla Torgersen, 0 si no")
-    sex_female: int = Field(0, example=0, description="1 si es hembra, 0 si no")
-    sex_male: int = Field(1, example=1, description="1 si es macho, 0 si no")
+# Definir todas las features
+feature_columns = [
+    'Elevation', 'Aspect', 'Slope', 'Horizontal_Distance_To_Hydrology',
+    'Vertical_Distance_To_Hydrology', 'Horizontal_Distance_To_Roadways',
+    'Hillshade_9am', 'Hillshade_Noon', 'Hillshade_3pm',
+    'Horizontal_Distance_To_Fire_Points', 'Cover_Type',
+    'Wilderness_Area_Cache', 'Wilderness_Area_Commanche',
+    'Wilderness_Area_Neota', 'Wilderness_Area_Rawah', 'Soil_Type_C2702',
+    'Soil_Type_C2703', 'Soil_Type_C2704', 'Soil_Type_C2705',
+    'Soil_Type_C2706', 'Soil_Type_C2717', 'Soil_Type_C3502',
+    'Soil_Type_C4201', 'Soil_Type_C4703', 'Soil_Type_C4704',
+    'Soil_Type_C4744', 'Soil_Type_C4758', 'Soil_Type_C5101',
+    'Soil_Type_C6101', 'Soil_Type_C6102', 'Soil_Type_C6731',
+    'Soil_Type_C7101', 'Soil_Type_C7102', 'Soil_Type_C7103',
+    'Soil_Type_C7201', 'Soil_Type_C7202', 'Soil_Type_C7700',
+    'Soil_Type_C7701', 'Soil_Type_C7702', 'Soil_Type_C7709',
+    'Soil_Type_C7710', 'Soil_Type_C7745', 'Soil_Type_C7746',
+    'Soil_Type_C7755', 'Soil_Type_C7756', 'Soil_Type_C7757',
+    'Soil_Type_C7790', 'Soil_Type_C8703', 'Soil_Type_C8707',
+    'Soil_Type_C8708', 'Soil_Type_C8771', 'Soil_Type_C8772',
+    'Soil_Type_C8776'
+]
+
+# Crear dinámicamente el esquema de entrada con Pydantic v2
+fields_dict = {
+    col: (float, Field(..., description=col)) for col in feature_columns
+}
+ForestFeatures = create_model("ForestFeatures", **fields_dict)
 
 # Cargar modelo al iniciar
 @app.on_event("startup")
 async def load_model():
     global model
     try:
-        model_path = "/opt/airflow/models/RegresionLogistica.pkl"
+        
+        model_path = "/opt/airflow/models/DecisionTree.pkl"
         
         # Cargar el modelo
         with open(model_path, 'rb') as f:
             model = joblib.load(f)
-        
-        logger.info("Modelo RegresionLogistica cargado exitosamente")
+
+
+        ##########
+
+
+
+
+
+        # model_path = "/opt/airflow/models/DecisionTree.pkl"
+
+        # model = joblib.load(model_path)
+
+        logger.info("Modelo DecisionTree cargado exitosamente")
         logger.info(f"Tipo de modelo: {type(model)}")
-        
-        # Verificar que puede hacer predicciones
-        test_data = np.array([[39.1, 18.7, 181.0, 3750.0, 2007, 0, 0, 1, 0, 1]])
+
+        # Prueba rápida
+        test_data = np.zeros((1, len(feature_columns)))
         test_prediction = model.predict(test_data)
         logger.info(f"Predicción de prueba: {test_prediction}")
-        
+
     except Exception as e:
         logger.error(f"Error cargando modelo: {str(e)}")
         raise e
 
 
-
 # Endpoint de predicción
 @app.post("/predict")
-def predict(features: PenguinFeatures):
-    """Predecir la especie de pingüino"""
-    
-    # Verificar que el modelo está cargado
+def predict(features: ForestFeatures):
     if model is None:
         raise HTTPException(status_code=503, detail="Modelo no disponible")
-    
+
     try:
-        # Construir array de características en el orden correcto
-        # Basado en tu función clean(): bill_length_mm, bill_depth_mm, flipper_length_mm, 
-        # body_mass_g, year, island_Biscoe, island_Dream, island_Torgersen, sex_female, sex_male
-        X = np.array([[
-            features.bill_length_mm,
-            features.bill_depth_mm, 
-            features.flipper_length_mm,
-            features.body_mass_g,
-            features.year,
-            features.island_Biscoe,
-            features.island_Dream,
-            features.island_Torgersen,
-            features.sex_female,
-            features.sex_male
-        ]])
-        
+        # Construir el array de entrada en el mismo orden que feature_columns
+        X = np.array([[getattr(features, col) for col in feature_columns]])
         logger.info(f"Datos de entrada: {X}")
-        
-        # Hacer predicción
+
         prediction = model.predict(X)[0]
-        
-        # Obtener probabilidades si el modelo las soporta
-        probabilities = None
-        prob_dict = None
-        if hasattr(model, 'predict_proba'):
+
+        response = {
+            "predicted_cover_type": int(prediction),
+            "model_used": "DecisionTreeClassifier",
+            "input_features": features.dict()
+        }
+
+        # Agregar probabilidades si el modelo lo soporta
+        if hasattr(model, "predict_proba"):
             try:
                 probabilities = model.predict_proba(X)[0]
-                prob_dict = {
-                    species_mapping[i+1]: float(prob) 
-                    for i, prob in enumerate(probabilities)
-                }
+                prob_dict = {str(i + 1): float(p) for i, p in enumerate(probabilities)}
+                response["probabilities"] = prob_dict
             except Exception as e:
                 logger.warning(f"No se pudieron obtener probabilidades: {str(e)}")
-        
-        # Preparar respuesta
-        response = {
-            "species_id": int(prediction),
-            "species_name": species_mapping.get(prediction, "Desconocido"),
-            "model_used": "RegresionLogistica",
-            "input_features": {
-                "bill_length_mm": features.bill_length_mm,
-                "bill_depth_mm": features.bill_depth_mm,
-                "flipper_length_mm": features.flipper_length_mm,
-                "body_mass_g": features.body_mass_g,
-                "year": features.year,
-                "island": "Biscoe" if features.island_Biscoe else ("Dream" if features.island_Dream else "Torgersen"),
-                "sex": "female" if features.sex_female else "male"
-            }
-        }
-        
-        # Agregar probabilidades si están disponibles
-        if prob_dict:
-            response["probabilities"] = prob_dict
-        
+
         logger.info(f"Predicción exitosa: {response}")
         return response
-        
+
     except Exception as e:
         logger.error(f"Error en predicción: {str(e)}")
         raise HTTPException(status_code=400, detail=f"Error en predicción: {str(e)}")
 
+
 # Endpoint para información del modelo
 @app.get("/model-info")
 def model_info():
-    """Obtener información sobre el modelo cargado"""
     if model is None:
         raise HTTPException(status_code=503, detail="Modelo no disponible")
-    
-    info = {
-        "model_type": str(type(model).__name__),
-        "model_loaded": True
-    }
-    
-    return info
+    return {"model_type": str(type(model).__name__), "model_loaded": True}
 
-# Endpoint de ejemplo para documentación
+
+# Endpoint de ejemplo
 @app.get("/predict/example")
 def prediction_example():
-    """Ejemplo de cómo usar el endpoint de predicción"""
     return {
         "url": "/predict",
         "method": "POST",
-        "example_request": {
-            "bill_length_mm": 39.1,
-            "bill_depth_mm": 18.7,
-            "flipper_length_mm": 181.0,
-            "body_mass_g": 3750.0,
-            "year": 2007,
-            "island_Biscoe": 0,
-            "island_Dream": 0,
-            "island_Torgersen": 1,
-            "sex_female": 0,
-            "sex_male": 1
-        },
+        "example_request": {col: 0.0 for col in feature_columns},
         "expected_response": {
-            "species_id": 1,
-            "species_name": "Adelie",
-            "model_used": "RandomForestClassifier"
+            "predicted_cover_type": 1,
+            "model_used": "DecisionTreeClassifier"
         }
     }
+
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-

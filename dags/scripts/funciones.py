@@ -198,13 +198,6 @@ def train_model():
     X = df.drop(['Cover_Type', 'id'], axis=1, errors='ignore')
     y = df['Cover_Type']
     
-    # print("⚖️  Aplicando SMOTEENN para balancear clases...")
-    # imp = SMOTEENN(sampling_strategy="all", random_state=42)
-    # X_bal, y_bal = imp.fit_resample(X, y)
-    
-    # print(f"   Distribución después de SMOTEENN:")
-    # print(y_bal.value_counts(normalize=True) * 100)
-    
     X_train, X_test, Y_train, Y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
@@ -217,67 +210,34 @@ def train_model():
     accuracy = accuracy_score(Y_test, y_pred)
     print(f"✅ Accuracy: {accuracy:.4f}")
 
-    ##Conexion a Mlflow ###
+    ## Conexion a Mlflow ###
+    mlflow.set_tracking_uri("http://mlflow:5000")   # servicio mlflow en docker-compose
+    experiment_name = "proyecto_airflow"
+    mlflow.set_experiment(experiment_name)
 
-    mlflow.set_tracking_uri("http://mlflow:5000")   # el servicio que agregamos en docker-compose
-    mlflow.set_experiment("proyecto_airflow")       # nombre de tu experimento
+    # Obtener ID del experimento
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+    experiment_id = experiment.experiment_id
 
-    with mlflow.start_run(run_name="decision_tree_airflow"):
+    # Contar corridas previas para generar nombre incremental
+    runs = mlflow.search_runs(experiment_ids=[experiment_id])
+    run_number = len(runs) + 1
+    run_name = f"decision_tree{run_number}"
+
+    with mlflow.start_run(run_name=run_name):
         mlflow.log_param("random_state", 42)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.sklearn.log_model(model, artifact_path="decision_tree_model")
     
     os.makedirs('/opt/airflow/models', exist_ok=True)
+
     joblib.dump(model, MODEL_PATH)
+
+
     print(f"💾 Modelo guardado en: {MODEL_PATH}")
+    print(f"📌 Run registrado en MLflow con nombre: {run_name}")
 
-def pasa_a_produccion():
-    # Dirección del servidor MLflow (para registrar el run inicial)
-    mlflow.set_tracking_uri("http://mlflow:5000")
-    
-    # Cargar modelo previamente entrenado
-    model = joblib.load(MODEL_PATH)
-    
-    with mlflow.start_run(run_name="decision_tree_run") as run:
-        # Log del modelo como artifact
-        mlflow.sklearn.log_model(
-            sk_model=model,
-            artifact_path="model"
-        )
 
-        # URI del modelo guardado en este run
-        run_id = run.info.run_id
-        model_uri = f"runs:/{run_id}/model"
-
-        # Registrar en el Model Registry del server
-        result = mlflow.register_model(
-            model_uri=model_uri,
-            name="lucio_model"
-        )
-
-        print(f"✅ Modelo logueado y registrado en MLflow (versión provisional {result.version})")
-
-    # Ahora cambiamos de tracking URI al servicio de mlflow del docker-compose
-    mlflow.set_tracking_uri("http://mlflow:5000")
-    print('🔄 Promoviendo modelo a producción en MLflow...')
-
-    client = MlflowClient()
-
-    model_name = "lucio_model"
-
-    # Buscar la última versión registrada de este modelo
-    versions = client.search_model_versions(f"name='{model_name}'")
-    latest_version = max(int(v.version) for v in versions)
-
-    # Promover esa última versión a Production
-    client.transition_model_version_stage(
-        name=model_name,
-        version=latest_version,
-        stage="Production",
-        archive_existing_versions=True
-    )
-
-    print(f"🚀 Modelo {model_name} v{latest_version} promovido a Production")
 
 
 def start_fastapi_server():
