@@ -3,9 +3,7 @@ import joblib
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
 from airflow.providers.mysql.hooks.mysql import MySqlHook
-# from imblearn.combine import SMOTEENN
 import os
 import requests
 from datetime import datetime
@@ -89,7 +87,7 @@ def insert_data():
     cursor.close()
     conn.close()
     
-    print(f"✅ {len(values)} registros insertados en {TABLE_NAME}")
+    print(f"{len(values)} registros insertados en {TABLE_NAME}")
 
 def clean(df):
     """Limpia el DataFrame y crea variables dummy"""
@@ -128,17 +126,17 @@ def create_dynamic_table(df, table_name="forest_clean"):
     conn = hook.get_conn()
     cursor = conn.cursor()
     
-    print(f"🗑️  Eliminando tabla {table_name} si existe...")
+    print(f"Eliminando tabla {table_name} si existe...")
     cursor.execute(drop_table_sql)
     
-    print(f"🔨 Creando tabla {table_name} con {len(columns_ddl)} columnas...")
+    print(f"Creando tabla {table_name} con {len(columns_ddl)} columnas...")
     cursor.execute(create_table_sql)
     
     conn.commit()
     cursor.close()
     conn.close()
     
-    print(f"✅ Tabla {table_name} creada con columnas: {list(df.columns)[:5]}...")
+    print(f"Tabla {table_name} creada con columnas: {list(df.columns)[:5]}...")
 
 def insert_data_dynamic(df, table_name="forest_clean"):
     """Inserta datos de forma dinámica"""
@@ -158,42 +156,46 @@ def insert_data_dynamic(df, table_name="forest_clean"):
     conn = hook.get_conn()
     cursor = conn.cursor()
     
-    print(f"📥 Insertando {len(values)} registros en {table_name}...")
+    print(f"Insertando {len(values)} registros en {table_name}...")
     cursor.executemany(insert_sql, values)
     
     conn.commit()
     cursor.close()
     conn.close()
     
-    print(f"✅ {len(values)} registros insertados exitosamente")
+    print(f"{len(values)} registros insertados exitosamente")
 
 def read_data():
     """Lee, limpia y carga datos en forest_clean de forma dinámica"""
     hook = MySqlHook(mysql_conn_id=CONN_ID)
     
-    print("📖 Leyendo datos desde forest_raw...")
+    print("Leyendo datos desde forest_raw...")
     query = "SELECT * FROM forest_raw"
     df = hook.get_pandas_df(sql=query)
-    print(f"   {len(df)} registros leídos")
+    print(f"{len(df)} registros leídos")
     
-    print("🧹 Limpiando datos y creando variables dummy...")
+    print("Limpiando datos y creando variables dummy...")
     cleaned_df = clean(df)
-    print(f"   DataFrame limpio: {cleaned_df.shape}")
-    print(f"   Columnas generadas: {len(cleaned_df.columns)}")
+    print(f"DataFrame limpio: {cleaned_df.shape}")
+    print(f"Columnas generadas: {len(cleaned_df.columns)}")
     
     create_dynamic_table(cleaned_df, table_name="forest_clean")
     insert_data_dynamic(cleaned_df, table_name="forest_clean")
     
-    print("\n✅ Proceso completo: Limpieza e inserción terminada")
+    print("\n Proceso completo: Limpieza e inserción terminada")
     return cleaned_df
 
 def train_model():
-    """Entrena el modelo con balanceo SMOTEENN"""
+
     hook = MySqlHook(mysql_conn_id=CONN_ID)
     query = "SELECT * FROM forest_clean"
     df = hook.get_pandas_df(sql=query)
-    df.to_csv('/home/estudiante/talleres/Proyecto2/dags/forest_clean.csv', index=False)
-    print(f"📊 Datos cargados para entrenamiento: {df.shape}")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Guardar CSV para validar todos los batches
+    csv_path = os.path.join(current_dir, "forest_clean.csv")
+    df.to_csv(csv_path, index=False)
+    print(f" Datos cargados para entrenamiento: {df.shape}")
     
     # Separar features y target
     X = df.drop(['Cover_Type', 'id'], axis=1, errors='ignore')
@@ -203,16 +205,16 @@ def train_model():
         X, y, test_size=0.2, random_state=42, stratify=y
     )
     
-    print("🌳 Entrenando Decision Tree...")
+    print("Entrenando Logistic Regression...")
     model = LogisticRegression()
     model.fit(X_train, Y_train)
     
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(Y_test, y_pred)
-    print(f"✅ Accuracy: {accuracy:.4f}")
+    print(f"Accuracy: {accuracy:.4f}")
 
     ## Conexion a Mlflow ###
-    mlflow.set_tracking_uri("http://mlflow:5000")   # servicio mlflow en docker-compose
+    mlflow.set_tracking_uri("http://mlflow:5000")  
     experiment_name = "proyecto_airflow"
     mlflow.set_experiment(experiment_name)
 
@@ -223,38 +225,22 @@ def train_model():
     # Contar corridas previas para generar nombre incremental
     runs = mlflow.search_runs(experiment_ids=[experiment_id])
     run_number = len(runs) + 1
-    run_name = f"decision_tree{run_number}"
+    run_name = f"Logistic_Regression{run_number}"
 
     with mlflow.start_run(run_name=run_name):
         mlflow.log_param("random_state", 42)
         mlflow.log_metric("accuracy", accuracy)
-        mlflow.sklearn.log_model(model, artifact_path="decision_tree_model")
+        mlflow.sklearn.log_model(model, artifact_path="Logic_Regression_model")
     
     os.makedirs('/opt/airflow/models', exist_ok=True)
 
     joblib.dump(model, MODEL_PATH)
 
 
-    print(f"💾 Modelo guardado en: {MODEL_PATH}")
-    print(f"📌 Run registrado en MLflow con nombre: {run_name}")
+    print(f"Modelo guardado en: {MODEL_PATH}")
+    print(f" Run registrado en MLflow con nombre: {run_name}")
 
 
-
-
-def start_fastapi_server():
-    """Verifica que el modelo exista y marca FastAPI como listo"""
-    if not os.path.exists(MODEL_PATH):
-        raise FileNotFoundError(f"❌ Modelo no encontrado en {MODEL_PATH}")
-    
-    print("🚀 Configuración de FastAPI:")
-    print(f"   - Modelo: {MODEL_PATH}")
-    print(f"   - Puerto: 8000")
-    
-    with open("/opt/airflow/dags/fastapi_ready.txt", "w") as f:
-        f.write(f"FastAPI ready at {datetime.now()}\n")
-        f.write(f"Model path: {MODEL_PATH}\n")
-    
-    print("✅ FastAPI configurado y listo")
 
 def check_table_exists(**kwargs):
     from airflow.providers.mysql.hooks.mysql import MySqlHook
