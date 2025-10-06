@@ -20,6 +20,26 @@ Este proyecto implementa un **pipeline completo de MLOps** que automatiza el pro
 
 ---
 
+## Características Principales
+
+- **Orquestación automática** del pipeline mediante **Airflow**
+- **Contenerización total** con **Docker Compose**
+- **Auto-disparo del DAG** al iniciar los contenedores
+- **Recolección dinámica** de datos desde la API del profesor (nuevos datos cada 5 min)
+- **Entrenamiento reproducible** y versionado de modelos con MLflow
+- **Servicio FastAPI** que permite consumir el modelo para predicciones
+- **Volúmenes compartidos** entre Airflow y FastAPI para acceso a modelos `.pkl` y columnas `.json`
+
+
+
+
+
+
+
+
+
+
+
 ## Estructura del Proyecto
 
 ```
