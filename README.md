@@ -187,12 +187,12 @@ Se obtiene un modelo de clasificación entrenado y validado automáticamente, li
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/DAVID316CORDOVA/MLOps_Taller3.git
-cd MLOps_Taller3
+git clone [https://github.com/DAVID316CORDOVA/MLOps_Taller3.git](https://github.com/spartron12/MLOps_proyecto2.git)
+cd MLOps_proyecto2
 
 # Limpiar entorno previo (si existe)
 docker compose down -v
-docker system prune -f
+docker system prune -af
 ```
 
 ### Ejecución Completamente Automática (Recomendado)
