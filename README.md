@@ -109,9 +109,6 @@ MLOps_Proyecto2/
   para recibir un JSON con las mismas columnas del entrenamiento.
 
 
-
-
-
 ###  Airflow
 - **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
   - Llama a la API externa para recolectar datos (http://10.43.100.103:8080)
