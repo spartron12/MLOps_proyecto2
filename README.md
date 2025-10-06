@@ -209,7 +209,7 @@ docker compose up
 - El pipeline ejecuta 10 ejecuciones programadas cada 5 minutos, en las cuales:
   - Se cargan y limpian los datos.
   - Se entrena un nuevo modelo de Regresión Logística en cada iteración.
-  - Cada modelo se guarda en la ruta: /opt/airflow/models/LogisticRegression.pkl
+  - Cada modelo se guarda en la ruta: /opt/airflow/models/LogisticRegression.pkl donde se actualiza en cada ejecución con más data proveniente de los batches acumulados.
   - Los modelos, métricas y parámetros se registran en MLflow bajo el experimento proyecto_airflow.
 - Al finalizar las 10 corridas, FastAPI queda disponible con el modelo final entrenado para realizar predicciones.
 
