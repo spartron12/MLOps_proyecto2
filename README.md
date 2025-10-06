@@ -8,13 +8,13 @@ Este proyecto implementa un pipeline completo de Machine Learning Operations (ML
 
 ## Características Principales
 
-- Pipeline completamente automatizado con ejecución sin intervención manual
-- Orquestación inteligente del flujo de trabajo con Apache Airflow
-- Contenerización completa mediante Docker Compose
-- Base de datos MySQL para almacenamiento persistente
-- API FastAPI para servicio de predicciones en tiempo real
-- Auto-trigger del DAG con activación automática al iniciar
-- Dashboard web de Airflow para monitoreo en tiempo real
+Este proyecto implementa un **pipeline completo de MLOps** que automatiza el proceso de:
+1. Recolección de datos desde una **API externa** (http://10.43.100.103:8080)
+2. Limpieza, almacenamiento y transformación con **Apache Airflow**
+3. Entrenamiento automático de modelos con **scikit-learn**
+4. Registro y seguimiento de experimentos en **MLflow**
+5. Despliegue de modelo en una **API FastAPI**
+6. Exposición del modelo entrenado como servicio REST para realizar predicciones en tiempo real
 
 ## Estructura del Proyecto
 
