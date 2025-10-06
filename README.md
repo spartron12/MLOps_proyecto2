@@ -246,7 +246,7 @@ docker compose ps
 | **MySQL** | localhost:3306 | my_app_user/my_app_pass | Base de datos |
 | **MLflow** | http://localhost:5000 | - | Trazabilidad de modelos |
 | **Minio** | http://localhost:9000 | - | Repositorio de artefactos |
-| **Postgres** | http://localhost:5433 | mlflow/mlflow | Repositorio de metadata MlFlow |
+| **Postgres** | http://localhost:5433 | mlflow/mlflow | Repositorio de metadata MLFlow |
 
 
 ## Ejecución del Proyecto
