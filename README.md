@@ -32,39 +32,56 @@ Este proyecto implementa un **pipeline completo de MLOps** que automatiza el pro
 
 
 
-
-
-
-
-
-
-
-
 ## Estructura del Proyecto
 
 ```
-MLOps_Taller3/
+
+MLOps_Proyecto2/
 ├── dags/
-│   ├── scripts/
-│   │   ├── __pycache__/
-│   │   ├── __init__.py
-│   │   ├── funciones.py
-│   │   └── queries.py
-│   ├── fastapi_ready.txt
-│   ├── fastapi.log
-│   └── orquestador.py
-├── fastapi/
-│   ├── __pycache__/
-│   ├── Dockerfile
-│   ├── main.py
-│   └── requirements.txt
-├── logs/
-├── models/
-├── plugins/
-├── images/
-├── .env
+│ ├── fastapi.log
+│ ├── fastapi_ready.txt
+│ ├── models/
+│ ├── orquestador.py
+│ ├── pycache/
+│ └── scripts/
+│ ├── funciones.py
+│ └── queries.py
 ├── docker-compose.yaml
-└── README.md
+├── fastapi/
+│ ├── Dockerfile
+│ ├── main.py
+│ ├── models/
+│ ├── pycache/
+│ └── requirements.txt
+├── images/
+│ ├── compose.jpg
+│ ├── dag.jpg
+│ ├── fastapi.jpg
+│ ├── fastapi_prediction.jpg
+│ ├── login.jpg
+│ └── orquesta.jpg
+├── logs/
+│ ├── dag_id=dag_mysql_demo/
+│ ├── dag_id=mysql_insert_select/
+│ ├── dag_id=orquestador/
+│ ├── dag_processor_manager/
+│ └── scheduler/
+├── minio/
+├── mlflow/
+├── models/
+│ └── LogisticRegression.pkl
+├── plugins/
+├── README.md
+└── venv/
+├── bin/
+├── include/
+├── lib/
+├── lib64 -> lib
+└── pyvenv.cfg
+
+
+
+
 ```
 
 
