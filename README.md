@@ -79,12 +79,7 @@ MLOps_Proyecto2/
 └── pyvenv.cfg
 ```
 
-
 ---
-
-
-
-
 
 
 ### Descripción de Componentes
@@ -92,7 +87,7 @@ MLOps_Proyecto2/
 
 ----
 
-### 🌀 Airflow
+###  Airflow
 - **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
   - Llama a la API externa para recolectar datos (10.43.101.149:80)
   - Procesa y limpia los datos
@@ -109,7 +104,7 @@ MLOps_Proyecto2/
 
 ---
 
-### ⚡ FastAPI
+###  FastAPI
 - **`fastapi/main.py`**:
   Expone el modelo entrenado como API REST (`/predict`)
   para recibir un JSON con las mismas columnas del entrenamiento.
