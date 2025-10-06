@@ -348,21 +348,19 @@ CREATE_TABLE_RAW = """ CREATE TABLE IF NOT EXISTS forest_raw (
 
 ## Conclusiones
 
-Este proyecto implementa un pipeline MLOps completamente automatizado que:
+Se logró automatizar de extremo a extremo el flujo de trabajo de ML, reduciendo la necesidad de intervención manual.
+El uso de Apache Airflow como orquestador central permitió programar, coordinar y asegurar la correcta ejecución de todas las etapas del pipeline.
+La contenerización con Docker Compose garantizó portabilidad, replicabilidad y facilidad de despliegue en diferentes entornos.
+El pipeline incorpora versionamiento y trazabilidad a través de MLflow, lo que facilita la comparación entre experimentos y modelos entrenados.
+La integración con FastAPI asegura un servicio REST confiable para predicciones en tiempo real, conectando directamente el resultado del pipeline con aplicaciones externas.
+La arquitectura desarrollada permite escalabilidad y mantenibilidad, ofreciendo una base sólida para llevar modelos de ML a producción.
 
-- Elimina intervención manual en el proceso de entrenamiento
-- Proporciona un sistema reproducible y confiable
-- Integra todas las fases del ciclo de vida del modelo
-- Ofrece monitoreo y trazabilidad completa
-- Reduce significativamente el tiempo de despliegue
-
-La automatización establecida proporciona una base sólida para operaciones de Machine Learning en producción, minimizando errores humanos y maximizando la eficiencia operacional.
-
+En conclusión, el proyecto representa un ejemplo práctico y funcional de cómo aplicar principios de MLOps en un entorno real, logrando un sistema reproducible, confiable y eficiente para la gestión del ciclo de vida de modelos de Machine Learning.
 ---
 
 **Desarrollado por:**
 - Sebastian Rodríguez  
 - David Córdova
 
-**Proyecto:** MLOps Taller 3 - Pipeline Automatizado  
-**Fecha:** Septiembre 2025
+**Proyecto:** MLOps Proyecto 2 - Pipeline Automatizado  
+**Fecha:** Octubre 2025
