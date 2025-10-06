@@ -18,6 +18,8 @@ Este proyecto implementa un **pipeline completo de MLOps** que automatiza el pro
 5. Despliegue de modelo en una **API FastAPI**
 6. Exposición del modelo entrenado como servicio REST para realizar predicciones en tiempo real
 
+---
+
 ## Estructura del Proyecto
 
 ```
