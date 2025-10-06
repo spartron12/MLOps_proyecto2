@@ -113,29 +113,44 @@ MLOps_Proyecto2/
 
   ```json
   {
-    "Elevation": 3269,
-    "Aspect": 113,
-    "Slope": 13,
-    "Horizontal_Distance_To_Hydrology": 576,
-    "Vertical_Distance_To_Hydrology": 133,
-    "Horizontal_Distance_To_Roadways": 518,
-    "Hillshade_9am": 242,
-    "Hillshade_Noon": 226,
-    "Hillshade_3pm": 110,
-    "Horizontal_Distance_To_Fire_Points": 1012,
-    "Wilderness_Area_Commanche": 1,
-    "Soil_Type_C8772": 1
+   {
+  "Elevation": 3000,
+  "Aspect": 45,
+  "Slope": 10,
+  "Horizontal_Distance_To_Hydrology": 150,
+  "Vertical_Distance_To_Hydrology": 20,
+  "Horizontal_Distance_To_Roadways": 200,
+  "Hillshade_9am": 220,
+  "Hillshade_Noon": 250,
+  "Hillshade_3pm": 180,
+  "Horizontal_Distance_To_Fire_Points": 500,
+  "Wilderness_Area_Commanche": 0,
+  "Wilderness_Area_Neota": 0,
+  "Wilderness_Area_Rawah": 1,
+  "Soil_Type_C2705": 0,
+  "Soil_Type_C4703": 0,
+  "Soil_Type_C4704": 0,
+  "Soil_Type_C4758": 0,
+  "Soil_Type_C6101": 0,
+  "Soil_Type_C6102": 0,
+  "Soil_Type_C7101": 0,
+  "Soil_Type_C7103": 0,
+  "Soil_Type_C7201": 0,
+  "Soil_Type_C7202": 0,
+  "Soil_Type_C7700": 0,
+  "Soil_Type_C7702": 0,
+  "Soil_Type_C7746": 1,
+  "Soil_Type_C7755": 0,
+  "Soil_Type_C7756": 0,
+  "Soil_Type_C7757": 0,
+  "Soil_Type_C7790": 0,
+  "Soil_Type_C8703": 0,
+  "Soil_Type_C8771": 0,
+  "Soil_Type_C8772": 0,
+  "Soil_Type_C8776": 0
+}
   }
-
-
-
-
-
-
-
-
-
-
+  
 ----
 
 
