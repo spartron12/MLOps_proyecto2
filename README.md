@@ -111,7 +111,7 @@ MLOps_Proyecto2/
 
   Ejemplo de entrada:
 
- ```json
+```json
 {
   "Elevation": 3000,
   "Aspect": 45,
