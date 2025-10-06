@@ -109,28 +109,6 @@ MLOps_Proyecto2/
   para recibir un JSON con las mismas columnas del entrenamiento.
 
 
-###  Airflow
-- **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
-  - Llama a la API externa para recolectar datos (http://10.43.100.103:8080)
-  - Procesa y limpia los datos
-  - Entrena el modelo de IA
-  - Guarda los resultados en `/opt/airflow/models`
-  - Señaliza a FastAPI que el modelo está listo (`fastapi_ready.txt`)
-  
-- **`dags/scripts/funciones.py`**:
-  Contiene las funciones:
-  - `fetch_data_from_api()`: obtiene datos del endpoint del profesor
-  - `clean_data()`: preprocesa la información
-  - `train_model()`: entrena y guarda el modelo + columnas en JSON
-  - `start_fastapi_server()`: activa FastAPI una vez el modelo está disponible
-
----
-
-###  FastAPI
-- **`fastapi/main.py`**:
-  Expone el modelo entrenado como API REST (`/predict`)
-  para recibir un JSON con las mismas columnas del entrenamiento.
-
   Ejemplo de entrada:
 
 ```json
