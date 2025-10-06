@@ -243,17 +243,17 @@ docker compose ps
 
 ## Ejecución del Proyecto
 
-### 1. Levantamiento de la aplicación
-![Inicio del sistema](./images/compose.jpg)
+### 1. Reinicio del contador de ejecución batch
+![Inicio del sistema](./images/Reinicia_contador_batch.png)
 
 ### 2. Login de Airflow
-![Inicio del sistema](./images/login.jpg)
+![Inicio del sistema](./images/Ingreso_airflow.jpg)
 
 ### 3. Ejecución Automática del Pipeline - DAG Auto-Activo
-![Inicio del sistema](./images/dag.jpg)
+![Inicio del sistema](./images/Airflow_features.jpg)
 
 ## 4. Visualización todos los tasks de Airflow ejecutándose automaticamente
-![Inicio del sistema](./images/orquesta.jpg)
+![Inicio del sistema](./images/Imagen_flujo_airflow 2.jpg)
 
 ## 5. Visualización del correcto funcionamiento de la interfaz gráfica de FASTAPI 
 ![Inicio del sistema](./images/fastapi.jpg)
