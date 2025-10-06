@@ -85,11 +85,9 @@ MLOps_Proyecto2/
 ### Descripción de Componentes
 
 
-----
-
 ###  Airflow
 - **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
-  - Llama a la API externa para recolectar datos (10.43.101.149:80)
+  - Llama a la API externa para recolectar datos (http://10.43.100.103:8080)
   - Procesa y limpia los datos
   - Entrena el modelo de IA
   - Guarda los resultados en `/opt/airflow/models`
@@ -151,104 +149,6 @@ MLOps_Proyecto2/
 
   
 ----
-
-#### docker-compose.yaml - Orquestación Automática
-
-**Características de automatización implementadas:**
-
-```yaml
-# DAGs activos por defecto (sin intervención manual)
-AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
-
-# Detección rápida de cambios en DAGs
-AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: 30
-AIRFLOW__SCHEDULER__PARSING_PROCESSES: 2
-```
-
-**Servicio de Auto-Trigger integrado:**
-```yaml
-dag-auto-trigger:
-  command: >
-    bash -c "
-      echo 'Iniciando auto-trigger del DAG...'
-      sleep 120
-      echo 'Activando DAG orquestador...'
-      airflow dags unpause orquestador || echo 'DAG ya está activo'
-      echo 'Disparando ejecución del DAG...'
-      airflow dags trigger orquestador
-      echo 'DAG disparado exitosamente!'
-    "
-```
-
-**Función:** Ejecuta automáticamente el pipeline 2 minutos después del inicio completo.
-
-
-## Conexiones Configuradas
-
-###  MySQL
-```yaml
-AIRFLOW_CONN_MYSQL_CONN: 'mysql://my_app_user:my_app_pass@mysql:3306/my_app_db'
-````
-
-* Permite conexión directa de **MySqlHook** y **MySqlOperator**
-* Evita hardcodear credenciales en el código
-
-### FileSensor
-
-```yaml
-AIRFLOW_CONN_FS_DEFAULT: 'fs:///'
-```
-
-* Usada por **FileSensor** para monitorear archivos del sistema
-* Útil para pipelines basados en llegada de archivos
-
-
-#### DAG Modificado - orquestador.py
-
-**Configuración para auto-activación:**
-```python
-with DAG(
-    dag_id="orquestador",
-    schedule_interval=None,          # Ejecución controlada automáticamente
-    catchup=False,
-    is_paused_upon_creation=False,   # CLAVE: DAG activo desde creación
-    tags=['ml', 'penguins', 'auto-execution']
-) as dag:
-```
-
-**Función:** Garantiza que el DAG esté listo para ejecución automática.
-
-
-## Flujo del Pipeline Automatizado
-
-### Secuencia de Ejecución Automática:
-
-1. docker compose up
-2. Servicios iniciando (MySQL + Redis + PostgreSQL)
-3. Airflow Webserver + Scheduler
-4. DAG auto-activo
-5. Auto-trigger después de 120 segundos
-6. Pipeline ML ejecutándose automáticamente
-
-
-## DAG Orquestador (`orquestador.py`)
-
-Este DAG orquesta todo el flujo de **ETL + entrenamiento de modelo** de pingüinos:
-
-1. **Preparación de la base de datos**
-   - Elimina tablas previas (`penguins_raw` y `penguins_clean`) si existen.
-   - Crea las tablas necesarias para datos crudos y limpios.
-
-2. **Carga y limpieza de datos**
-   - Inserta datos de pingüinos en la tabla `penguins_raw`.
-   - Limpia y transforma los datos (One-Hot Encoding, manejo de NaN) y los inserta en `penguins_clean`.
-
-3. **Entrenamiento del modelo**
-   - Usa los datos limpios para entrenar un modelo de **Regresión Logística**.
-   - Guarda el modelo entrenado en `/opt/airflow/models/RegresionLogistica.pkl`.
-
-4. **Validación del modelo**
-   - Un `FileSensor` verifica que el archivo del modelo exista antes de finalizar el pipeline.
 
 
 ### Resumen del flujo
