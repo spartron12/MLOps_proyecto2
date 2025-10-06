@@ -263,11 +263,11 @@ docker compose ps
 ## 4. Visualización todos los tasks de Airflow ejecutándose automaticamente
 ![Inicio del sistema](./images/Imagen_flujo_airflow%202.png)
 
-## 5. Visualización de los fetures de la ejecución de airflow
+## 5. Visualización de las métricas de la ejecución de airflow
 ![Inicio del sistema](./images/Airflow_features.png)
 
 
-## 6. Evidencia de los logs de ejecución en mlflow
+## 6. Evidencia de los logs de ejecución en MLflow
 ![Inicio del sistema](./images/Registro%20Experimental.png)
 
 ## 7. Inferencia en FastAPI
