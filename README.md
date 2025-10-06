@@ -85,9 +85,7 @@ MLOps_Proyecto2/
 ## Descripción de Componentes
 
 
-
-
-## Componentes Principales
+### Componentes Principales
 
 ###  Airflow
 - **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
@@ -103,19 +101,12 @@ MLOps_Proyecto2/
   - `clean_data()`: preprocesa la información
   - `train_model()`: entrena y guarda el modelo + columnas en JSON
   - `start_fastapi_server()`: activa FastAPI una vez el modelo está disponible
-
 ---
 
 ###  FastAPI
 - **`fastapi/main.py`**:
   Expone el modelo entrenado como API REST (`/predict`)
   para recibir un JSON con las mismas columnas del entrenamiento.
-
-
-
-
-
-
 
 
 
