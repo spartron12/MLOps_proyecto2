@@ -1,4 +1,4 @@
-# MLOps Taller 5 - Proyecto 2 
+# MLOps Proyecto 2 
 
 **Grupo:** Sebastián Rodríguez y David Córdova  
 **Curso:** Machine Learning Operations (MLOps)  
@@ -8,7 +8,7 @@ Este proyecto implementa un pipeline completo de Machine Learning Operations (ML
 
 ---
 
-## Características Principales
+##  Descripción General
 
 Este proyecto implementa un **pipeline completo de MLOps** que automatiza el proceso de:
 1. Recolección de datos desde una **API externa** (http://10.43.100.103:8080)
