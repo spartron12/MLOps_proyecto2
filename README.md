@@ -253,14 +253,14 @@ docker compose ps
 ![Inicio del sistema](./images/Airflow_features.jpg)
 
 ## 4. Visualización todos los tasks de Airflow ejecutándose automaticamente
-![Inicio del sistema](./images/Imagen_flujo_airflow 2.jpg)
+![Inicio del sistema](./images/Imagen_flujo_airflow 2.png)
 
-## 5. Visualización del correcto funcionamiento de la interfaz gráfica de FASTAPI 
-![Inicio del sistema](./images/fastapi.jpg)
+## 5. Visualización de los fetures de la ejecución de airflow
+![Inicio del sistema](./images/Airflow_features.png)
 
 
-## 6. Predicción usando el modelo generado automáticamente por AirFlow
-![Inicio del sistema](./images/fastapi_prediction.jpg)
+## 6. Evidencia de los logs de ejecución en mlflow
+![Inicio del sistema](./images/Registro%20Experimental.png.jpg)
 
 ## Funciones Técnicas Implementadas
 
