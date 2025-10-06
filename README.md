@@ -253,7 +253,7 @@ docker compose ps
 ![Inicio del sistema](./images/Airflow_features.jpg)
 
 ## 4. Visualización todos los tasks de Airflow ejecutándose automaticamente
-![Inicio del sistema](./images/Imagen_flujo_airflow%20.png)
+![Inicio del sistema](./images/Imagen_flujo_airflow%202.png)
 
 ## 5. Visualización de los fetures de la ejecución de airflow
 ![Inicio del sistema](./images/Airflow_features.png)
