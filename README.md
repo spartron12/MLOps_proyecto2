@@ -89,6 +89,61 @@ MLOps_Proyecto2/
 
 ### Descripción de Componentes
 
+
+----
+
+### 🌀 Airflow
+- **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
+  - Llama a la API externa para recolectar datos (10.43.101.149:80)
+  - Procesa y limpia los datos
+  - Entrena el modelo de IA
+  - Guarda los resultados en `/opt/airflow/models`
+  - Señaliza a FastAPI que el modelo está listo (`fastapi_ready.txt`)
+  
+- **`dags/scripts/funciones.py`**:
+  Contiene las funciones:
+  - `fetch_data_from_api()`: obtiene datos del endpoint del profesor
+  - `clean_data()`: preprocesa la información
+  - `train_model()`: entrena y guarda el modelo + columnas en JSON
+  - `start_fastapi_server()`: activa FastAPI una vez el modelo está disponible
+
+---
+
+### ⚡ FastAPI
+- **`fastapi/main.py`**:
+  Expone el modelo entrenado como API REST (`/predict`)
+  para recibir un JSON con las mismas columnas del entrenamiento.
+
+  Ejemplo de entrada:
+
+  ```json
+  {
+    "Elevation": 3269,
+    "Aspect": 113,
+    "Slope": 13,
+    "Horizontal_Distance_To_Hydrology": 576,
+    "Vertical_Distance_To_Hydrology": 133,
+    "Horizontal_Distance_To_Roadways": 518,
+    "Hillshade_9am": 242,
+    "Hillshade_Noon": 226,
+    "Hillshade_3pm": 110,
+    "Horizontal_Distance_To_Fire_Points": 1012,
+    "Wilderness_Area_Commanche": 1,
+    "Soil_Type_C8772": 1
+  }
+
+
+
+
+
+
+
+
+
+
+----
+
+
 - **dags/**:
   - **orquestador.py**: DAG principal de Airflow que automatiza todo el pipeline de Machine Learning
   - **scripts/funciones.py**: Funciones principales del pipeline (insert_data,clean, read_data, train_model)
