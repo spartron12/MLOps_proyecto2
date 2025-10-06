@@ -89,7 +89,7 @@ MLOps_Proyecto2/
 
 ###  Airflow
 - **`dags/orquestador.py`**: DAG principal que orquesta todo el flujo:
-  - Llama a la API externa para recolectar datos (10.43.101.149:80)
+  - Llama a la API externa para recolectar datos (http://10.43.100.103:8080)
   - Procesa y limpia los datos
   - Entrena el modelo de IA
   - Guarda los resultados en `/opt/airflow/models`
