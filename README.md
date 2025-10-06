@@ -113,7 +113,6 @@ MLOps_Proyecto2/
 
   ```json
   {
-   {
   "Elevation": 3000,
   "Aspect": 45,
   "Slope": 10,
@@ -149,7 +148,6 @@ MLOps_Proyecto2/
   "Soil_Type_C8772": 0,
   "Soil_Type_C8776": 0
 }
-  }
   
 ----
 
