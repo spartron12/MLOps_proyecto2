@@ -30,12 +30,11 @@ Este proyecto implementa un **pipeline completo de MLOps** que automatiza el pro
 - **Servicio FastAPI** que permite consumir el modelo para predicciones
 - **Volúmenes compartidos** entre Airflow y FastAPI para acceso a modelos `.pkl` y columnas `.json`
 
-
+---
 
 ## Estructura del Proyecto
 
 ```
-
 MLOps_Proyecto2/
 ├── dags/
 │ ├── fastapi.log
@@ -78,10 +77,6 @@ MLOps_Proyecto2/
 ├── lib/
 ├── lib64 -> lib
 └── pyvenv.cfg
-
-
-
-
 ```
 
 
