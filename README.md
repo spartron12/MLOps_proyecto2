@@ -269,7 +269,7 @@ docker compose ps
 ![Inicio del sistema](./images/Ingreso_airflow.jpg)
 
 ### 3. Ejecución Automática del Pipeline - DAG Auto-Activo
-![Inicio del sistema](./images/Airflow_features.jpg)
+![Inicio del sistema](./images/Airflow_features.png)
 
 ## 4. Visualización todos los tasks de Airflow ejecutándose automaticamente
 ![Inicio del sistema](./images/Imagen_flujo_airflow%202.png)
@@ -280,6 +280,10 @@ docker compose ps
 
 ## 6. Evidencia de los logs de ejecución en mlflow
 ![Inicio del sistema](./images/Registro%20Experimental.png)
+
+## 7. Inferencia en FastAPI
+![Inicio del sistema](./images/Fastapi%20primer%20Json.png)
+![Inicio del sistema](./images/Inferencia%20FastAPI.png)
 
 ## Funciones Técnicas Implementadas
 
