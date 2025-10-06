@@ -244,7 +244,10 @@ docker compose ps
 | **Airflow Web** | http://localhost:8080 | admin/admin | Dashboard del pipeline |
 | **FastAPI Docs** | http://localhost:8000/docs | - | API de predicciones |
 | **MySQL** | localhost:3306 | my_app_user/my_app_pass | Base de datos |
-| **Flower (opcional)** | http://localhost:5555 | - | Monitor de Celery |
+| **Mlflow** | http://localhost:5000 | - | Trazabilidad de modelos |
+| **Minio** | http://localhost:9000 | - | Repositorio de artefactos |
+| **Postgres** | http://localhost:5433 | mlflow/mlflow | Repositorio de metadata MlFlow |
+
 
 ## Ejecución del Proyecto
 
