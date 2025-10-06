@@ -291,17 +291,15 @@ docker compose ps
 
 ```python
 def insert_data():
-    """Inserta datos de Palmer Penguins en MySQL"""
-    # Carga dataset Palmer Penguins
+    """Inserta datos de forest en MySQL"""
+    # Carga dataset forest
     # Limpia valores nulos y NaN
-    # Inserta registros en tabla MySQL `penguins_raw`
+    # Inserta registros en tabla MySQL `forest_raw`
 
 def clean(df):
     """Limpia y transforma los datos"""
     # Elimina registros con valores nulos
-    # Aplica One-Hot Encoding para variables categóricas (island, sex)
-    # Convierte columnas booleanas a enteros
-    # Transforma species a valores numéricos (1=Adelie, 2=Chinstrap, 3=Gentoo)
+    # Aplica One-Hot Encoding para variables categóricas ('Wilderness_Area', 'Soil_Type')
     # Retorna DataFrame listo para almacenar en `penguins_clean`
 
 def read_data():
@@ -309,21 +307,28 @@ def read_data():
     # Extrae registros desde tabla `penguins_raw`
     # Aplica limpieza y codificación con `clean()`
     # Inserta datos transformados en tabla `penguins_clean`
+def create_dynamic_table():
+    """Crea tabla dinámica basada en las columnas del DataFrame"""
+    # Una vez se limpian los datos, se crea la tabla en función de las columnas que generen el onehot
+    #crea tabla `forest_clean`
+def insert_data_dynamic():
+    """Inserta datos de forma dinámica"""
+    # Se insertan los datos en función de la tabla anteriormente creada
+    #
 
 def train_model():
     """Entrena y guarda un modelo de Regresión Logística"""
-    # Carga datos desde tabla `penguins_clean`
+    # Carga datos desde tabla `forest_clean`
     # Divide dataset en entrenamiento y prueba
     # Entrena modelo de clasificación
-    # Evalúa desempeño con métricas (accuracy, confusion matrix, classification report)
+    # Evalúa desempeño con métricas (accuracy)
+    # Guarda los logs experimentales en mlflow
     # Guarda modelo en `/opt/airflow/models/RegresionLogistica.pkl`
 
-def start_fastapi_server():
-    """Prepara entorno FastAPI para servir el modelo"""
-    # Verifica existencia del modelo entrenado
-    # Configura aplicación FastAPI ubicada en `/opt/airflow/dags/fastapi_app.py`
-    # Genera archivo de estado `fastapi_ready.txt`
-    # Sugiere comando de despliegue con uvicorn
+def check_table_exists():
+    """verifica si la tabla forest_raw existe"""
+    # Verifica existencia de las tablas inciales con el fin de evaluar que paso ejecutar, si crear las tablas o pasar a la inserción
+ 
 
 ```
 
@@ -331,41 +336,25 @@ def start_fastapi_server():
 
 ```sql
 DROP_PENGUINS_TABLE = """
-DROP TABLE IF EXISTS penguins_raw;
+DROP TABLE IF EXISTS forest_raw;
 """
 
-DROP_PENGUINS_CLEAN_TABLE = """
-DROP TABLE IF EXISTS penguins_clean;            
- """
-
-
-CREATE_PENGUINS_TABLE_RAW = """ CREATE TABLE penguins_raw (
-            species VARCHAR(50) NULL,
-            island VARCHAR(50) NULL,
-            bill_length_mm DOUBLE NULL,
-            bill_depth_mm DOUBLE NULL,
-            flipper_length_mm DOUBLE NULL,
-            body_mass_g DOUBLE NULL,
-            sex VARCHAR(10) NULL,
-            year INT NULL
+CREATE_TABLE_RAW = """ CREATE TABLE IF NOT EXISTS forest_raw (
+            Elevation INT NULL,
+            Aspect INT NULL,
+            Slope INT NULL,
+            Horizontal_Distance_To_Hydrology INT NULL,
+            Vertical_Distance_To_Hydrology INT NULL,
+            Horizontal_Distance_To_Roadways INT NULL,
+            Hillshade_9am INT NULL,
+            Hillshade_Noon INT NULL,
+            Hillshade_3pm INT NULL,
+            Horizontal_Distance_To_Fire_Points INT NULL,
+            Wilderness_Area VARCHAR(50) NULL,
+            Soil_Type VARCHAR(50) NULL,
+            Cover_Type INT NULL
         )
         """
-
-CREATE_PENGUINS_TABLE_CLEAN = """ CREATE TABLE penguins_clean (
-    species INT NULL,
-    bill_length_mm DOUBLE NULL,
-    bill_depth_mm DOUBLE NULL,
-    flipper_length_mm DOUBLE NULL,
-    body_mass_g DOUBLE NULL,
-    year INT NULL,
-    island_Biscoe INT NULL,
-    island_Dream INT NULL,
-    island_Torgersen INT NULL,
-    sex_female INT NULL,
-    sex_male INT NULL
-        );      
-        """
-"""
 
 ```
 
