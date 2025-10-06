@@ -348,14 +348,14 @@ CREATE_TABLE_RAW = """ CREATE TABLE IF NOT EXISTS forest_raw (
 
 ## Conclusiones
 
-Se logró automatizar de extremo a extremo el flujo de trabajo de ML, reduciendo la necesidad de intervención manual.
-El uso de Apache Airflow como orquestador central permitió programar, coordinar y asegurar la correcta ejecución de todas las etapas del pipeline.
-La contenerización con Docker Compose garantizó portabilidad, replicabilidad y facilidad de despliegue en diferentes entornos.
-El pipeline incorpora versionamiento y trazabilidad a través de MLflow, lo que facilita la comparación entre experimentos y modelos entrenados.
-La integración con FastAPI asegura un servicio REST confiable para predicciones en tiempo real, conectando directamente el resultado del pipeline con aplicaciones externas.
-La arquitectura desarrollada permite escalabilidad y mantenibilidad, ofreciendo una base sólida para llevar modelos de ML a producción.
+- Se logró automatizar de extremo a extremo el flujo de trabajo de ML, reduciendo la necesidad de intervención manual.
+- El uso de Apache Airflow como orquestador central permitió programar, coordinar y asegurar la correcta ejecución de todas las etapas del pipeline.
+- La contenerización con Docker Compose garantizó portabilidad, replicabilidad y facilidad de despliegue en diferentes entornos.
+- El pipeline incorpora versionamiento y trazabilidad a través de MLflow, lo que facilita la comparación entre experimentos y modelos entrenados.
+- La integración con FastAPI asegura un servicio REST confiable para predicciones en tiempo real, conectando directamente el resultado del pipeline con aplicaciones   externas.
+- La arquitectura desarrollada permite escalabilidad y mantenibilidad, ofreciendo una base sólida para llevar modelos de ML a producción.
 
-En conclusión, el proyecto representa un ejemplo práctico y funcional de cómo aplicar principios de MLOps en un entorno real, logrando un sistema reproducible, confiable y eficiente para la gestión del ciclo de vida de modelos de Machine Learning.
+- En conclusión, el proyecto representa un ejemplo práctico y funcional de cómo aplicar principios de MLOps en un entorno real, logrando un sistema reproducible, confiable y eficiente para la gestión del ciclo de vida de modelos de Machine Learning.
 ---
 
 **Desarrollado por:**
