@@ -1,6 +1,8 @@
 # MLOps Taller 5 - Proyecto 2 
 
-**Grupo compuesto por Sebastian Rodríguez y David Córdova**
+**Grupo:** Sebastián Rodríguez y David Córdova  
+**Curso:** Machine Learning Operations (MLOps)  
+**Profesor:** [Nombre del profesor, si aplica]
 
 Este proyecto implementa un pipeline completo de Machine Learning Operations (MLOps) que automatiza desde la limpieza de datos hasta el entrenamiento de modelos y despliegue de API, utilizando Apache Airflow como orquestador principal.
 
