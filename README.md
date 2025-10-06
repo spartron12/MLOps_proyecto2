@@ -156,19 +156,24 @@ MLOps_Proyecto2/
 ### Resumen del flujo
 
 ```
-delete_table + delete_table_clean
+check_first_run_task
          ↓
-  create_table_raw
-         ↓
- create_table_clean
-         ↓
-   insert_data
-         ↓
-    read_data
-         ↓
-   train_model
-         ↓
-wait_for_model_file (FileSensor)
+ ┌───────────────────────────┐
+ │                           │
+ ↓                           ↓
+delete_table_raw         skip_table_creation
+         ↓                      ↓
+         └──────── join_after_branch ────────┘
+                             ↓
+                     insert_raw_data
+                             ↓
+                    clean_and_transform
+                             ↓
+                        train_ml_model
+                             ↓
+                        wait_for_model
+                             ↓
+                       wait_between_runs
 ```
 
 
