@@ -211,22 +211,8 @@ docker compose up
   - Se entrena un nuevo modelo de Regresión Logística en cada iteración.
   - Cada modelo se guarda en la ruta: /opt/airflow/models/LogisticRegression.pkl
   - Los modelos, métricas y parámetros se registran en MLflow bajo el experimento proyecto_airflow.
-Al finalizar las 10 corridas, FastAPI queda disponible con el modelo final entrenado para realizar predicciones.
+- Al finalizar las 10 corridas, FastAPI queda disponible con el modelo final entrenado para realizar predicciones.
 
-
-
-
-
-
-
-
-
-
-- Se crean todos los contenedores necesarios
-- Airflow inicia con credenciales admin/admin
-- DAG se activa automáticamente
-- Pipeline se ejecuta una vez automáticamente después de 2 minutos
-- FastAPI queda disponible con modelo entrenado
 
 ### Ejecución en Background
 
