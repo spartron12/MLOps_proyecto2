@@ -335,7 +335,7 @@ def check_table_exists():
 ### queries.py - Consultas SQL
 
 ```sql
-DROP_PENGUINS_TABLE = """
+DROP_TABLE = """
 DROP TABLE IF EXISTS forest_raw;
 """
 
